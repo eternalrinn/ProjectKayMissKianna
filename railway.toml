@@ -1,7 +1,9 @@
 [build]
-builder = "RAILPACK"
+builder = "railpack"
 buildCommand = "npm run build"
 
 [deploy]
+startCommand = "php artisan optimize:clear && php artisan storage:link --force && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=$PORT"
 healthcheckPath = "/"
-preDeployCommand = "php artisan migrate --force && php artisan optimize:clear && php artisan config:cache && php artisan route:cache && php artisan view:cache"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
